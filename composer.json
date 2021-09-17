@@ -1,0 +1,28 @@
+{
+  "name": "cubex/sitemap",
+  "authors": [
+    {
+      "name": "Kyle Essex",
+      "email": "kylegavinessex@hotmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "cubex/framework": "^4.16.5",
+    "packaged/glimpse": "^2.8.0"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "auto",
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Cubex\\Sitemap\\": "src"
+    }
+  }
+}
