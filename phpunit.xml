@@ -7,14 +7,6 @@
     <ini name="date.timezone" value="UTC"/>
     <env name="CONTEXT_ENV" value="phpunit" force="true"/>
   </php>
-  <coverage>
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-    <report>
-      <clover outputFile="coverage/clover.xml"/>
-    </report>
-  </coverage>
   <testsuites>
     <testsuite name="Sitemap Test Suite">
       <directory>./tests</directory>
