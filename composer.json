@@ -28,7 +28,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Cubex\\Sitemap\\Tests": "tests"
+      "Cubex\\Sitemap\\Tests\\": "tests"
     }
   }
 }
