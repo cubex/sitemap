@@ -42,7 +42,7 @@ class SitemapListener
   {
     $response = $event->getResponse();
     $path = $event->getContext()->request()->path() . 'test';
-    $content = $this->_GetContent((string)$response->getContent());
+    $content = $this->_getContent((string)$response->getContent());
     $hash = md5($content);
 
     if(isset($config->paths[$path]))
