@@ -74,7 +74,7 @@ class SitemapListener
     return $config;
   }
 
-  protected function _GetContent(string $content)
+  protected function _getContent(string $content)
   {
     // Remove the head, we really only care about content
     $content = preg_replace('/<head>(.*?)<\/head>/s', '', $content);
