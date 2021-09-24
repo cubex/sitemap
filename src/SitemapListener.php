@@ -17,7 +17,12 @@ class SitemapListener
     $cubex->listen(HandleCompleteEvent::class, static function (HandleCompleteEvent $e) use ($cubex, $context) {
       $ctx = $context->getContext();
       $root = $ctx->getProjectRoot();
-      $cubex->getLogger()->alert('Sitemap Gen Stuff');
+
+      if($e->getResponse()->getStatusCode() !== 200)
+      {
+        return;
+      }
+
       $i = new static();
 
       $sitemapLocation = $root . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'sitemap.xml';
@@ -79,8 +84,7 @@ class SitemapListener
     // Remove the head, we really only care about content
     $content = preg_replace('/<head>(.*?)<\/head>/s', '', $content);
     $content = preg_replace('/<script(.*?)<\/script>/s', '', $content);
-    $content = preg_replace('/<link(.*?)<\/link>/s', '', $content);
-    return $content;
+    return preg_replace('/<link(.*?)<\/link>/s', '', $content);
   }
 
 }
