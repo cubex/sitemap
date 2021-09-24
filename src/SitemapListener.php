@@ -80,7 +80,7 @@ class SitemapListener
     $content = preg_replace('/<head>(.*?)<\/head>/s', '', $content);
     $content = preg_replace('/<script(.*?)<\/script>/s', '', $content);
     $content = preg_replace('/<link(.*?)<\/link>/s', '', $content);
-    return md5($content);
+    return $content;
   }
 
 }
