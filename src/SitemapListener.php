@@ -61,6 +61,7 @@ class SitemapListener
       $pathItem->excludeFromSitemap = false;
       $title = ucfirst(ltrim($path, '/')) . ' Page';
       $pathItem->title = $title ?? 'Homepage';
+      $pathItem->changeFrequency = 'monthly';
     }
 
     if(Objects::property(Arrays::value($pathItem->history, $pathItem->lastModified), 'hash') !== $hash)

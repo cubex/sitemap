@@ -67,7 +67,7 @@ class Sitemap
     $location = $this->_tag('loc', $this->_config->hostname . '/' . ltrim($url, '/'));
     $priority = $this->_tag('priority', $configPaths->priority);
     $lastModified = $this->_getLastModified($configPaths->lastModified);
-    $changeFreq = $this->_getChangeFrequency($configPaths->history);
+    $changeFreq = $this->_tag('changefreq', $configPaths->changeFrequency);
 
     return [$location, $priority, $lastModified, $changeFreq];
   }

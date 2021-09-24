@@ -9,6 +9,7 @@ class PathItem
   public $lastModified;
   public $priority;
   public $excludeFromSitemap;
+  public $changeFrequency;
   public $history = [];
 
   public static function fromRaw(\stdClass $raw)
