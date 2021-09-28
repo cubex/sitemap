@@ -2,6 +2,7 @@
 namespace Cubex\Sitemap;
 
 use Packaged\Helpers\Objects;
+use stdClass;
 
 class PathItem
 {
@@ -12,7 +13,7 @@ class PathItem
   public $changeFrequency;
   public $history = [];
 
-  public static function fromRaw(\stdClass $raw)
+  public static function fromRaw(stdClass $raw)
   {
     if(isset($raw->history))
     {

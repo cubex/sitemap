@@ -1,7 +1,7 @@
 <?php
-
 namespace Cubex\Sitemap;
 
+use Cubex\Cubex;
 use Packaged\Context\ContextAware;
 use Packaged\Context\ContextAwareTrait;
 use Packaged\Context\WithContext;
@@ -16,15 +16,14 @@ class PathConfig implements WithContext, ContextAware
   public $hostname;
   public $paths = [];
 
-  protected function _file()
+  protected function _filepath()
   {
-    $cubexConfigDir = $this->getContext()->getProjectRoot() . DIRECTORY_SEPARATOR . '.cubex' . DIRECTORY_SEPARATOR;
-    return $cubexConfigDir . 'paths.json';
+    return Cubex::dir($this->getContext()) . 'paths.json';
   }
 
   public function load()
   {
-    $raw = json_decode(file_get_contents($this->_file()));
+    $raw = json_decode(file_get_contents($this->_filepath()));
 
     if($raw)
     {
@@ -43,7 +42,6 @@ class PathConfig implements WithContext, ContextAware
 
   public function save()
   {
-    file_put_contents($this->_file(), json_encode($this, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    file_put_contents($this->_filepath(), json_encode($this, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
   }
-
 }

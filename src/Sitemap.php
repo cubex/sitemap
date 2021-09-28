@@ -1,5 +1,4 @@
 <?php
-
 namespace Cubex\Sitemap;
 
 use Packaged\Glimpse\Core\CustomHtmlTag;
@@ -35,7 +34,12 @@ class Sitemap
     {
       if(!$path->excludeFromSitemap)
       {
-        $sitemapItems[] = $this->_tag('url', $this->_generateSitemapUrl($url, $path));
+        $sitemapItems[] = $this->_tag('url', [
+          $this->_tag('loc', $this->_config->hostname . '/' . ltrim($url, '/')),
+          $this->_tag('priority', $path->priority),
+          $this->_getLastModified($path->lastModified),
+          $this->_tag('changefreq', $path->changeFrequency),
+        ]);
       }
     }
 
@@ -60,16 +64,6 @@ class Sitemap
   protected function _tag(string $tagName, ...$content)
   {
     return $content ? CustomHtmlTag::build($tagName, [], ...$content) : null;
-  }
-
-  protected function _generateSitemapUrl(string $url, PathItem $configPaths)
-  {
-    $location = $this->_tag('loc', $this->_config->hostname . '/' . ltrim($url, '/'));
-    $priority = $this->_tag('priority', $configPaths->priority);
-    $lastModified = $this->_getLastModified($configPaths->lastModified);
-    $changeFreq = $this->_tag('changefreq', $configPaths->changeFrequency);
-
-    return [$location, $priority, $lastModified, $changeFreq];
   }
 
   protected function _getLastModified($lastModified)
@@ -98,8 +92,7 @@ class Sitemap
    */
   protected function _getChangeFrequency(array $history)
   {
-    $times = array_keys($history);
-
+    // $times = array_keys($history);
     // calculate an average or something here
 
     return $this->_tag('changefreq', 'Monthly');

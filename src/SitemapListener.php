@@ -1,5 +1,4 @@
 <?php
-
 namespace Cubex\Sitemap;
 
 use Cubex\Cubex;
@@ -92,5 +91,4 @@ class SitemapListener
     $content = preg_replace('/<script(.*?)<\/script>/s', '', $content);
     return preg_replace('/<link(.*?)<\/link>/s', '', $content);
   }
-
 }
