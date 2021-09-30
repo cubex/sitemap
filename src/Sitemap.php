@@ -8,7 +8,6 @@ class Sitemap
 {
   protected PathConfig $_config;
   protected string $_location;
-  protected string $_hostname;
 
   protected function __construct(string $location, PathConfig $c)
   {
@@ -83,24 +82,5 @@ class Sitemap
     }
 
     return $this->_tag('lastmod', $lastModified);
-  }
-
-  /**
-   * @param PathHistory[] $history
-   *
-   * @return CustomHtmlTag|null
-   */
-  protected function _getChangeFrequency(array $history)
-  {
-    // $times = array_keys($history);
-    // calculate an average or something here
-
-    return $this->_tag('changefreq', 'Monthly');
-  }
-
-  public function setHostname(string $hostname): Sitemap
-  {
-    $this->_hostname = $hostname;
-    return $this;
   }
 }
