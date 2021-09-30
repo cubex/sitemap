@@ -23,7 +23,12 @@ class PathConfig implements WithContext, ContextAware
 
   public function load()
   {
-    $raw = json_decode(file_get_contents($this->_filepath()));
+    $raw = null;
+
+    if(file_exists($this->_filepath()))
+    {
+      $raw = json_decode(file_get_contents($this->_filepath()));
+    }
 
     if($raw)
     {

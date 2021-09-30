@@ -7,17 +7,15 @@ use Packaged\SafeHtml\SafeHtml;
 class Sitemap
 {
   protected PathConfig $_config;
-  protected string $_location;
 
-  protected function __construct(string $location, PathConfig $c)
+  protected function __construct(PathConfig $c)
   {
-    $this->_location = $location;
     $this->_config = $c;
   }
 
-  public static function i(string $location, PathConfig $c)
+  public static function i(PathConfig $c)
   {
-    return new static($location, $c);
+    return new static($c);
   }
 
   public function generateSitemap()
@@ -45,8 +43,7 @@ class Sitemap
     $xml = new SafeHtml('<?xml version="1.0" encoding="UTF-8"?>');
     $xml->append($this->_createContainer($sitemapItems));
 
-    $content = $xml->produceSafeHTML()->getContent();
-    file_put_contents($this->_location, $content);
+    return $xml->produceSafeHTML()->getContent();
   }
 
   protected function _createContainer($sitemapItems): CustomHtmlTag
@@ -60,9 +57,9 @@ class Sitemap
     );
   }
 
-  protected function _tag(string $tagName, ...$content)
+  protected function _tag(string $tagName, $content)
   {
-    return $content ? CustomHtmlTag::build($tagName, [], ...$content) : null;
+    return isset($content) ? CustomHtmlTag::build($tagName, [], $content) : null;
   }
 
   protected function _getLastModified($lastModified)
