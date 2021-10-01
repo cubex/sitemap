@@ -36,8 +36,9 @@ class SitemapListener
 
       $c = $i->_mapResponse($c, $e);
 
-      Sitemap::i($sitemapLocation, $c)->generateSitemap();
+      $sitemap = Sitemap::i($c)->generateSitemap();
 
+      file_put_contents($sitemapLocation, $sitemap);
       $c->save();
     });
   }
@@ -45,7 +46,7 @@ class SitemapListener
   protected function _mapResponse(PathConfig $config, HandleCompleteEvent $event): PathConfig
   {
     $response = $event->getResponse();
-    $path = $event->getContext()->request()->path() . 'test';
+    $path = $event->getContext()->request()->path();
     $content = $this->_getContent((string)$response->getContent());
     $hash = md5($content);
 
@@ -58,8 +59,7 @@ class SitemapListener
       $pathItem = new PathItem();
       $pathItem->priority = 1.0;
       $pathItem->excludeFromSitemap = false;
-      $title = ucfirst(ltrim($path, '/')) . ' Page';
-      $pathItem->title = $title ?? 'Homepage';
+      $pathItem->title = $this->_getTitle($content);
       $pathItem->changeFrequency = 'monthly';
     }
 
@@ -73,7 +73,7 @@ class SitemapListener
       $time = time();
       $h = new PathHistory();
       $h->hash = $hash;
-      $h->hostName = $config->hostname;
+      $h->hostName = $event->getContext()->request()->getHost();
 
       $pathItem->history[$time] = $h;
       $pathItem->lastModified = $time;
@@ -82,6 +82,19 @@ class SitemapListener
     $config->paths[$path] = $pathItem;
 
     return $config;
+  }
+
+  protected function _getTitle(string $content)
+  {
+    $matches = [];
+    preg_match("/<title>(.+)<\/title>/i", $content, $matches);
+
+    if(count($matches) > 1)
+    {
+      return trim($matches[1]);
+    }
+
+    return null;
   }
 
   protected function _getContent(string $content)
