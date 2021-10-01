@@ -14,16 +14,14 @@ class SitemapListener
   public static function with(Cubex $cubex, ContextAware $context)
   {
     $cubex->listen(HandleCompleteEvent::class, static function (HandleCompleteEvent $e) use ($cubex, $context) {
-      $ctx = $context->getContext();
-      $root = $ctx->getProjectRoot();
-
       if($e->getResponse()->getStatusCode() !== 200)
       {
         return;
       }
 
       $i = new static();
-
+      $ctx = $context->getContext();
+      $root = $ctx->getProjectRoot();
       $sitemapLocation = $root . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'sitemap.xml';
 
       $c = PathConfig::withContext($ctx);
