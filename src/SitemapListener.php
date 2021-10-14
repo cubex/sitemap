@@ -61,12 +61,9 @@ class SitemapListener
       $pathItem->changeFrequency = 'monthly';
     }
 
-    if($pathItem->lastModified > strtotime('-1 hour'))
-    {
-      return $config;
-    }
-
-    if(Objects::property(Arrays::value($pathItem->history, $pathItem->lastModified), 'hash') !== $hash)
+    if(!$event->getContext()->isLocal()
+      && $pathItem->lastModified < strtotime('-1 hour')
+      && Objects::property(Arrays::value($pathItem->history, $pathItem->lastModified), 'hash') !== $hash)
     {
       $time = time();
       $h = new PathHistory();
