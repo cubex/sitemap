@@ -14,13 +14,13 @@ class SitemapListener
   public static function with(Cubex $cubex, ContextAware $context)
   {
     $cubex->listen(HandleCompleteEvent::class, static function (HandleCompleteEvent $e) use ($cubex, $context) {
-      if($e->getResponse()->getStatusCode() !== 200)
+      $ctx = $context->getContext();
+      if($e->getResponse()->getStatusCode() !== 200 || $ctx->meta()->has('no-index'))
       {
         return;
       }
 
       $i = new static();
-      $ctx = $context->getContext();
       $root = $ctx->getProjectRoot();
       $sitemapLocation = $root . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'sitemap.xml';
 
